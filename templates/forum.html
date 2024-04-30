@@ -5,13 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Forum Main Page</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="../static/css/style.css">
 </head>
 <body>
     <header class="bg-dark text-white p-3">
         <nav class="navbar navbar-expand-lg navbar-dark">
             
-            <img src="logo.jpg" alt="Website Logo" style="height: 50px;">
+            <img src="../static/images/logo.png" alt="Website Logo" style="height: 50px;">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -22,7 +22,14 @@
                 </ul>
             </div>
             <div class="form-inline">
+                <!--
+                {% if not logged_in %}
+                -->
                 <a href="login.html" class="btn btn-primary">Sign In / Log In</a>
+                <!--
+                {% endif %}  
+                -->
+                
             </div>
         </nav>
         <!--search bar-->
@@ -68,13 +75,13 @@
         <div class="row">
             <!-- Button for Post for Service -->
             <div class="col-md">
-                <a href="posts_service.html" class="btn btn-success btn-lg btn-block" role="button" style="padding: 20px; font-size: 1.5em;">
+                <a href="post.html" class="btn btn-success btn-lg btn-block" role="button" style="padding: 20px; font-size: 1.5em;">
                     Post for Service
                 </a>
             </div>
             <!-- Button for Post for Answer -->
             <div class="col-md">
-                <a href="posts_answer.html" class="btn btn-info btn-lg btn-block" role="button" style="padding: 20px; font-size: 1.5em;">
+                <a href="post.html" class="btn btn-info btn-lg btn-block" role="button" style="padding: 20px; font-size: 1.5em;">
                     Post for Answer
                 </a>
             </div>

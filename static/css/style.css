@@ -1,39 +1,11 @@
-body {
-    font-family: 'Arial', sans-serif;
-}
-header, footer {
-    background-color: #c40000;
-    color: white;
-    padding: 10px 20px;
-    text-align: center;
-}
-nav ul {
-    list-style-type: none;
-    padding: 0;
-}
-nav ul li {
-    display: inline;
-    margin-right: 10px;
-}
-.container {
+.centered-container {
     display: flex;
-    margin-top: 20px;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    width: 100%;  
 }
-.sidebar {
-    width: 20%;
-    background-color: #f4f4f4;
-    padding: 10px;
-}
-.main-content {
-    flex: 1;
-    padding: 20px;
-}
-footer {
-    text-align: center;
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-}
-.navbar-custom{
-    background-color: rgb(133, 30, 213);
+
+.custom-navbar-color {
+    background-color: #4a148c; /* Deep purple */
 }
