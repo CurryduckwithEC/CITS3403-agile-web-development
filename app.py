@@ -18,6 +18,13 @@ def post():
 def register():
     return render_template('register.html')
 
+@app.route('/submit_post', methods=['POST'])
+def submit_post():
+    title = request.form['title']
+    tags = request.form['tags']
+    content = request.form['content']
+    return redirect(url_for('main')) 
+
 if __name__ == '__main__':
     app.run(debug=True)
 
