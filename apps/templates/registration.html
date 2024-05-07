@@ -2,18 +2,19 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>Register Page</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
 </head>
 <body>
 <header class="bg-dark text-white p-3">
     <nav class="navbar navbar-expand-lg navbar-dark">
         <a class="navbar-brand" href="{{ url_for('main') }}">
-            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Website Logo" style="height: 50px;">
+            <img alt="Website Logo" src="{{ url_for('static', filename='images/logo.png') }}" style="height: 50px;">
         </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <button aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler"
+                data-target="#navbarNav" data-toggle="collapse" type="button">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
@@ -25,35 +26,50 @@
     </nav>
     <nav class="navbar navbar-light bg-light">
         <form class="form-inline flex-grow-1 mx-2">
-            <input class="form-control flex-grow-1" type="search" placeholder="Search" aria-label="Search">
+            <input aria-label="Search" class="form-control flex-grow-1" placeholder="Search" type="search">
             <button class="btn btn-outline-success" type="submit">Search</button>
         </form>
     </nav>
 </header>
 
 <main class="container d-flex justify-content-center align-items-center" style="min-height: calc(100vh - 200px);">
-    <form id="registrationForm" action="{{ url_for('register') }}" method="post" class="w-100" style="max-width: 400px;">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button aria-label="Close" class="close" data-dismiss="alert" type="button">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+    <form action="{{ url_for('register') }}" class="w-100" id="registrationForm" method="post"
+          style="max-width: 400px;">
         <h2 class="mb-4">Registration Form</h2>
         <div class="form-group">
             <label for="username">Username:</label>
-            <input type="text" id="username" name="username" required class="form-control">
+            <input class="form-control" id="username" name="username" required type="text">
         </div>
         <div class="form-group">
             <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required class="form-control">
+            <input class="form-control" id="email" name="email" required type="email">
         </div>
         <div class="form-group">
             <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required class="form-control">
+            <input class="form-control" id="password" name="password" required type="password">
         </div>
         <div class="form-group">
             <label for="confirmPassword">Confirm Password:</label>
-            <input type="password" id="confirmPassword" name="confirmPassword" required class="form-control">
+            <input class="form-control" id="confirmPassword" name="confirmPassword" required type="password">
         </div>
         <div class="form-group text-center">
-            <button type="submit" class="btn btn-primary">Register</button>
-            <button type="reset" class="btn btn-secondary">Reset</button>
-        </div>        </form>
+            <button class="btn btn-primary" type="submit">Register</button>
+            <button class="btn btn-secondary" type="reset">Reset</button>
+        </div>
+    </form>
 </main>
 
 <footer class="bg-dark text-white text-center p-3">
