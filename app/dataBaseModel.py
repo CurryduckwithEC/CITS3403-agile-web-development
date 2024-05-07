@@ -14,6 +14,7 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(120), unique=True, nullable=False)
 
 class jobPostings(db.Model):
+    post_id =db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, foreign_key=True)
     title = db.Column(db.String(32), unique=False, nullable=False)
     jobPay = db.Column(db.Integer, unique=False, nullable=False)
