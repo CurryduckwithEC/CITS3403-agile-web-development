@@ -9,3 +9,9 @@
 .custom-navbar-color {
     background-color: #4a148c; /* Deep purple */
 }
+
+.like {
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+}

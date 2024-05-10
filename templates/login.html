@@ -1,21 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-  <link href="{{ url_for('static', filename='../static/css/login_style.css') }}" rel="stylesheet">
-</head>
+{% extends "base.html" %}
 
-<body>
+{% block content %}
+<main class="container-fluid mt-3 login-container">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/login_style.css') }}">
+
   <div class="container">
     <!-- Sign Up -->
     <div class="container__form container--signup">
         <form action="{{ url_for('register') }}" method="post" class="form" id="form1">
         <h2 class="form__title">Sign Up</h2>
-        <input type="text" placeholder="User" class="input" />
-        <input type="email" placeholder="Email" class="input" />
-        <input type="password" placeholder="Password" class="input" />
+        <input type="text" placeholder="User" name="username" class="input" />
+        <input type="email" placeholder="Email" name="email" class="input" />
+        <input type="password" placeholder="Password" name="password" class="input" />
         <button class="btn">Sign Up</button>
       </form>
     </div>
@@ -24,8 +20,8 @@
     <div class="container__form container--signin">
         <form action="{{ url_for('login') }}" method="post" class="form" id="form2">
         <h2 class="form__title">Sign In</h2>
-        <input type="email" placeholder="Email" class="input" />
-        <input type="password" placeholder="Password" class="input" />
+        <input type="email" placeholder="Email" name="email" class="input" />
+        <input type="password" placeholder="Password" name="password" class="input" />
         <a href="#" class="link">Forgot your password?</a>
         <button class="btn">Sign In</button>
       </form>
@@ -62,6 +58,5 @@
     firstForm.addEventListener("submit", (e) => e.preventDefault());
     secondForm.addEventListener("submit", (e) => e.preventDefault());
   </script>
-</body>
-
-</html>
+</main>
+{% endblock %}
