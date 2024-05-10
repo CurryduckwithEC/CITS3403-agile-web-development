@@ -1,17 +1,15 @@
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
-import os
+from flask_sqlalchemy import SQLAlchemy
 
-app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
-app.config['SECRET_KEY'] = os.urandom(24)
+from apps.config import Config
+
+flaskApp = Flask(__name__)
+flaskApp.config.from_object(Config)
 
 # Create an instance of SQLAlchemy called db.
-db = SQLAlchemy(app)
-migrate = Migrate(app, db)
+db = SQLAlchemy(flaskApp)
+migrate = Migrate(flaskApp, db)
 
 from apps import routes
 from apps import models
-
-

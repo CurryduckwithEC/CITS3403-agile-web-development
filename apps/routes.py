@@ -1,20 +1,25 @@
 from flask import render_template, request, redirect, url_for, flash
-from apps import app, db
+
+from apps import flaskApp, db
 from apps.models import User
 
-@app.route('/')
+
+@flaskApp.route('/')
 def main():
     return render_template('main.html')
 
-@app.route('/login')
+
+@flaskApp.route('/login')
 def login():
     return render_template('login.html')
 
-@app.route('/post')
+
+@flaskApp.route('/post')
 def post():
     return render_template('post.html')
 
-@app.route('/register', methods=['GET', 'POST'])
+
+@flaskApp.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
         username = request.form['username']
@@ -31,6 +36,7 @@ def register():
             flash('Username already exists', 'danger')
             return redirect(url_for('register'))
 
+        # Need to delete
         new_user = User(username=username, email=email, password=password)
         db.session.add(new_user)
         db.session.commit()
