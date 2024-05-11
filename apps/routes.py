@@ -1,7 +1,8 @@
-from flask import render_template, request, redirect, url_for, flash
+from flask import *
 
 from apps import flaskApp, db
-from apps.models import User
+from apps.forms import *
+from apps.models import *
 
 
 @flaskApp.route('/')
@@ -19,29 +20,27 @@ def post():
     return render_template('post.html')
 
 
-@flaskApp.route('/register', methods=['GET', 'POST'])
-def register():
-    if request.method == 'POST':
-        username = request.form['username']
-        email = request.form['email']
-        password = request.form['password']
-        confirm_password = request.form['confirmPassword']
+@flaskApp.route('/registration', methods=['GET', 'POST'])
+def registration():
+    form = UserRegistrationForm()
+    if form.validate_on_submit():
+        username = form.username.data
+        email = form.email.data
+        password = form.password.data
 
-        if password != confirm_password:
-            flash('Passwords do not match', 'danger')
-            return redirect(url_for('register'))
-
-        existing_user = User.query.filter_by(username=username).first()
+        # Check if the username or email already exists in the database
+        existing_user = User.query.filter((User.username == username) | (User.email == email)).first()
         if existing_user:
-            flash('Username already exists', 'danger')
-            return redirect(url_for('register'))
+            flash('Username or email already exists. Please choose a different one.', 'danger')
+            return redirect(url_for('registration'))
 
-        # Need to delete
+        # Create a new user instance
         new_user = User(username=username, email=email, password=password)
+
+        # Add the new user to the database
         db.session.add(new_user)
         db.session.commit()
 
         flash('Registration successful. Please log in.', 'success')
         return redirect(url_for('login'))
-
-    return render_template('registration.html')
+    return render_template('registration.html', form=form)

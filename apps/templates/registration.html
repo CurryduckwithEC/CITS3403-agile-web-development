@@ -46,28 +46,24 @@
     {% endif %}
     {% endwith %}
 
-    <form action="{{ url_for('register') }}" class="w-100" id="registrationForm" method="post"
+    {% macro render_field(field) %}
+    <div class="form-group">
+        {{ field.label(class_="form-label") }}
+        {{ field(class_="form-control", **kwargs) }}
+    </div>
+    {% endmacro %}
+
+    <form action="{{ url_for('registration') }}" class="w-100" id="registrationForm" method="post"
           style="max-width: 400px;">
+        {{ form.hidden_tag() }}
         <h2 class="mb-4">Registration Form</h2>
-        <div class="form-group">
-            <label for="username">Username:</label>
-            <input class="form-control" id="username" name="username" required type="text">
-        </div>
-        <div class="form-group">
-            <label for="email">Email:</label>
-            <input class="form-control" id="email" name="email" required type="email">
-        </div>
-        <div class="form-group">
-            <label for="password">Password:</label>
-            <input class="form-control" id="password" name="password" required type="password">
-        </div>
-        <div class="form-group">
-            <label for="confirmPassword">Confirm Password:</label>
-            <input class="form-control" id="confirmPassword" name="confirmPassword" required type="password">
-        </div>
+        {{ render_field(form.username, required=True) }}
+        {{ render_field(form.email, required=True) }}
+        {{ render_field(form.password, required=True) }}
+        {{ render_field(form.confirmPassword, required=True) }}
         <div class="form-group text-center">
-            <button class="btn btn-primary" type="submit">Register</button>
-            <button class="btn btn-secondary" type="reset">Reset</button>
+            {{ form.submitButton(class_="btn btn-primary") }}
+            {{ form.resetButton(class_="btn btn-secondary", type="reset") }}
         </div>
     </form>
 </main>
