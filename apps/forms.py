@@ -11,3 +11,9 @@ class UserRegistrationForm(FlaskForm):
                                                                                              message='Passwords must match')])
     submitButton = SubmitField("Submit")
     resetButton = SubmitField("Rest")
+
+
+class LoginForm(FlaskForm):
+    email = StringField("Email:", validators=[DataRequired(), Email()])
+    password = PasswordField("Password:", validators=[DataRequired()])
+    loginButton = SubmitField("Login")
