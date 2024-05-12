@@ -1,17 +1,21 @@
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
+from flask_login import LoginManager
 from flask_migrate import Migrate
-import os
+from flask_sqlalchemy import SQLAlchemy
 
-app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
-app.config['SECRET_KEY'] = os.urandom(24)
+from apps.config import Config
 
-# Create an instance of SQLAlchemy called db.
-db = SQLAlchemy(app)
-migrate = Migrate(app, db)
+flaskApp = Flask(__name__)
+flaskApp.config.from_object(Config)
+db = SQLAlchemy(flaskApp)
+migrate = Migrate(flaskApp, db)
+login = LoginManager(flaskApp)
+login.login_view = 'login'
+
+from .models import User
+@login.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
 
 from apps import routes
 from apps import models
-
-
