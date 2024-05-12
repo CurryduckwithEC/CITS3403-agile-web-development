@@ -1,29 +1,44 @@
-document.querySelector('form').addEventListener('submit', function(event) {
-  event.preventDefault(); // Prevent the form from submitting
+document.addEventListener('DOMContentLoaded', function() {
+    var form = document.querySelector('form');
 
-  var username = document.getElementById('username').value;
-  var password = document.getElementById('password').value;
+    form.addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent the form from submitting
 
-  // Clear existing error messages
-  document.getElementById('usernameError').style.display = 'none';
-  document.getElementById('passwordError').style.display = 'none';
+        var email = document.getElementById('email').value;
+        var password = document.getElementById('password').value;
 
-  // Validation with more specific error messages
-  var hasError = false;
-  if (username === '') {
-      document.getElementById('usernameError').textContent = "Username cannot be empty";
-      document.getElementById('usernameError').style.display = 'block';
-      hasError = true;
-  }
-  if (password === '') {
-      document.getElementById('passwordError').textContent = "Password cannot be empty";
-      document.getElementById('passwordError').style.display = 'block';
-      hasError = true;
-  }
+        // Clear existing error messages
+        var emailError = document.getElementById('emailError');
+        var passwordError = document.getElementById('passwordError');
 
-  // Submit form only if there are no errors
-  if (!hasError) {
-      console.log("Form data is valid!");
-      // Replace with your submission logic (e.g., send data to server)
-  }
+        if (emailError) {
+            emailError.style.display = 'none';
+        }
+        if (passwordError) {
+            passwordError.style.display = 'none';
+        }
+
+        // Validation with more specific error messages
+        var hasError = false;
+        if (email === '') {
+            if (emailError) {
+                emailError.textContent = "Email cannot be empty";
+                emailError.style.display = 'block';
+            }
+            hasError = true;
+        }
+        if (password === '') {
+            if (passwordError) {
+                passwordError.textContent = "Password cannot be empty";
+                passwordError.style.display = 'block';
+            }
+            hasError = true;
+        }
+
+        // Submit form only if there are no errors
+        if (!hasError) {
+            console.log("Form data is valid!");
+            form.submit(); // Submit the form
+        }
+    });
 });

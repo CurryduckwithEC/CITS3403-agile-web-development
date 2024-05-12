@@ -59,7 +59,7 @@
         <h2 class="mb-4">Registration Form</h2>
         {{ render_field(form.username, required=True) }}
         {{ render_field(form.email, required=True) }}
-        {{ render_field(form.hashedPassword, required=True) }}
+        {{ render_field(form.password, required=True) }}
         {{ render_field(form.confirmPassword, required=True) }}
         <div class="form-group text-center">
             {{ form.submitButton(class_="btn btn-primary") }}

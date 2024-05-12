@@ -56,7 +56,7 @@ def registration():
             return render_template('registration.html', form=form)
 
         # Create a new user instance
-        new_user = User(username=username, email=email, password=password)
+        new_user = User(username=username, email=email)
         new_user.set_password(password)
 
         # Add the new user to the database
