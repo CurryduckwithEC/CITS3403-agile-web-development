@@ -1,66 +1,56 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <title>Forum Main Page</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
-    <img alt="Website Logo" src="{{ url_for('static', filename='images/logo.png') }}" style="height: 30px; margin-right: 10px;">
-</head>
-<body>
-<header class="bg-dark text-white p-3">
-    <nav class="navbar navbar-expand-lg navbar-dark">
-        <a class="navbar-brand" href="{{ url_for('main') }}">
-            <img alt="Website Logo" src="{{ url_for('static', filename='images/logo.png') }}" style="height: 50px;">
-        </a>
-        <button aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler"
-                data-target="#navbarNav" data-toggle="collapse" type="button">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-                <li class="nav-item active"><a class="nav-link" href="{{ url_for('main') }}">Home</a></li>
-                <!--add other pages-->
-            </ul>
-        </div>
-        <div class="form-inline">
-            {% if not logged_in %}
-            <a class="btn btn-primary" href="{{ url_for('login') }}">Sign In / Log In</a>
-            {% endif %}
-        </div>
-    </nav>
-    <nav class="navbar navbar-light bg-light">
-        <form class="form-inline flex-grow-1 mx-2">
-            <input aria-label="Search" class="form-control flex-grow-1" placeholder="Search" type="search">
-            <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
-    </nav>
-</header>
+{% extends "base.html" %}
 
-<main class="container mt-3">
+{% block content %}
+<style>
+    .heart-icon {
+        height: 24px;
+        width: auto;
+    }
+</style>
+
+<main class="container-fluid mt-3">
     <div class="row">
-        <div class="col-md">
-            <a class="btn btn-success btn-lg btn-block" href="{{ url_for('post') }}" role="button"
-               style="padding: 20px; font-size: 1.5em;">
-                Post for Service
-            </a>
+        <!-- New Post Content -->
+        <div class="col-lg-8" style="height: calc(100vh - 130px); overflow-y: auto;">
+            <div class="card">
+                <div class="card-header">
+                    <h2>Newest Posts</h2>
+                </div>
+                <div class="card-body">
+                    {% if posts %}
+                        {% for post in posts %}
+                            <div class="border-bottom mb-4 pb-2">
+                                <h3> new post</h3>
+                                <p>{{ post.content|truncate(100) }}</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <a class="btn btn-primary btn-sm mr-2" >Read More</a>
+                                    <button class="btn btn-outline-secondary btn-sm">
+                                        <img class="like heart-icon" src="{{ url_for('static', filename='images/aixin-2.png') if post.liked else url_for('static', filename='images/aixin.png') }}" alt="Like">
+                                    </button>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="my-4">
+                            <p>No posts available. Be the first to post!</p>
+                            <a class="btn btn-primary" href="{{ url_for('create_post') }}">Create a New Post</a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
         </div>
-        <div class="col-md">
-            <a class="btn btn-info btn-lg btn-block" href="{{ url_for('post') }}" role="button"
-               style="padding: 20px; font-size: 1.5em;">
-                Post for Answer
+
+        <!-- Post Buttons -->
+        <div class="col-lg-4 d-flex flex-column justify-content-around align-items-stretch">
+            <a class="btn btn-success btn-lg btn-block mb-3" href="{{ url_for('post_for_service') }}" role="button" style="padding: 30px; font-size: 1.8em;">
+                <span style="font-size: 1.5em;">Post for</span><br>
+                <strong style="font-size: 2.5em;">Service</strong>
+            </a>
+            <a class="btn btn-info btn-lg btn-block" href="{{ url_for('post_for_answer') }}" role="button" style="padding: 30px; font-size: 1.8em;">
+                <span style="font-size: 1.5em;">Post for</span><br>
+                <strong style="font-size: 2.5em;">Answer</strong>
             </a>
         </div>
     </div>
 </main>
-
-<footer class="bg-dark text-white text-center p-3">
-    <p>&copy; 2024 3403 group project. All rights reserved.</p>
-</footer>
-
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-<script src="{{ url_for('static', filename='js/script.js') }}"></script>
-</body>
-</html>
+{% endblock %}

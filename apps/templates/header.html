@@ -1,0 +1,33 @@
+<header class="bg-dark text-white p-3">
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <a class="navbar-brand" href="{{ url_for('main') }}">
+            <img alt="Website Logo" src="{{ url_for('static', filename='images/logo.png') }}" style="height: 50px;">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item active"><a class="nav-link" href="{{ url_for('main') }}">Home</a></li>
+                <li class="nav-item active"><a class="nav-link" href="{{ url_for('post') }}">Post</a></li>
+                <!-- Add other pages here -->
+            </ul>
+            <!-- Search Bar -->
+            <div class="mx-2 d-flex justify-content-center align-items-center flex-grow-1" style="max-width: 900px;">
+                <form class="form-inline w-100 d-flex justify-content-center align-items-center" method="GET">
+                    <input aria-label="Search" class="form-control mr-2 flex-grow-1" placeholder="Search" type="search" name="query">
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                </form>
+            </div>
+        </div>
+        <div class="form-inline">
+            <!-- Adjust for authentication status if implemented -->
+            <a class="btn btn-primary" href="{{ url_for('login') }}">Sign In / Log In</a>
+        </div>
+    </nav>
+</header>
+
+
+
+

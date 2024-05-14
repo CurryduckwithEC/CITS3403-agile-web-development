@@ -5,29 +5,40 @@ from apps import *
 from apps.forms import *
 from apps.models import *
 
-
 @flaskApp.route('/')
 def main():
-    return render_template('main.html')
+    # 静态帖子数据
+    posts = [
+        {'id': 1, 'title': 'First Post', 'content': 'This is the content of the first post. Lorem ipsum dolor sit amet...', 'liked': False},
+        {'id': 2, 'title': 'Second Post', 'content': 'Here goes the content of the second post, quite longer than the first one...', 'liked': True}
+    ]
+    return render_template('main.html', posts=posts)
 
+@flaskApp.route('/post_for_answer')
+def post_for_answer():
+    return render_template('post_for_answer.html')
+
+@flaskApp.route('/post_for_service')
+def post_for_service():
+    return render_template('post_for_service.html')
 
 @flaskApp.route('/login', methods=['GET', 'POST'])
 def login():
-    form = LoginForm()
+    login_form = LoginForm()
+    registration_form = UserRegistrationForm()
     if request.method == 'GET':
-        return render_template('login.html', form=form)
+        return render_template('login.html', login_form =login_form, registration_form=registration_form)
 
-    if form.validate_on_submit():
-        email = form.email.data
-        password = form.password.data
+    if login_form.validate_on_submit():
+        email = login_form.email.data
+        password = login_form.password.data
         user = User.query.filter_by(email=email).first()
         if user and user.check_password(password):
             login_user(user)
             return redirect(url_for('main'))
         else:
             flash('Invalid email or password.', 'danger')
-    return render_template('login.html', form=form)
-
+    return render_template('login.html', login_form =login_form,registration_form=registration_form)
 
 @flaskApp.route('/logout')
 @login_required
@@ -35,25 +46,24 @@ def logout():
     logout_user()
     return redirect(url_for('login'))
 
-
 @flaskApp.route('/post')
 def post():
     return render_template('post.html')
 
-
 @flaskApp.route('/registration', methods=['GET', 'POST'])
 def registration():
-    form = UserRegistrationForm()
-    if form.validate_on_submit():
-        username = form.username.data
-        email = form.email.data
-        password = form.password.data
+    login_form = LoginForm()
+    registration_form = UserRegistrationForm()
+    if registration_form.validate_on_submit():
+        username = registration_form.username.data
+        email = registration_form.email.data
+        password = registration_form.password.data
 
         # Check if the username or email already exists in the database
         existing_user = User.query.filter((User.username == username) | (User.email == email)).first()
         if existing_user:
             flash('Username or email already exists. Please choose a different one.', 'danger')
-            return render_template('registration.html', form=form)
+            return render_template('registration.html', registration_form=registration_form, login_form=login_form)
 
         # Create a new user instance
         new_user = User(username=username, email=email)
@@ -65,6 +75,4 @@ def registration():
 
         flash('Registration successful. Please log in.', 'success')
         return redirect(url_for('login'))
-    else:
-        redirect(url_for('registration'))
-    return render_template('registration.html', form=form)
+    return render_template('login.html', registration_form=registration_form, login_form=login_form)
