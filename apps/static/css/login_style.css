@@ -181,6 +181,12 @@
       height: 100%;
       text-align: center;
     }
+    .form__title {
+      font-size: 1.5rem; /* Adjust this value as needed */
+      margin-top: 20px; /* Move the title down by 20px */
+      margin-bottom: 10px; /* Optionally add margin below the title */
+    }
+    
   
     .input {
       background-color: #fff;
@@ -204,4 +210,5 @@
       }
     }
   }
+  
   

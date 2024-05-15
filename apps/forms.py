@@ -10,7 +10,7 @@ class UserRegistrationForm(FlaskForm):
     confirmPassword = PasswordField("Confirm Password:", validators=[DataRequired(), EqualTo('password',
                                                                                              message='Passwords must match')])
     submitButton = SubmitField("Submit")
-    resetButton = SubmitField("Rest")
+    resetButton = SubmitField("  Rest  ")
 
 
 class LoginForm(FlaskForm):
