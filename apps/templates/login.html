@@ -48,7 +48,9 @@
                 {{ login_form.hidden_tag() }}
                 <h2 class="form__title">Log In</h2>
                 <div class="input-group">
-                    {{ login_form.email(placeholder="Email", class="input", id="email", required=True) }}
+                    {{ login_form.email(placeholder="Email", class="input", id="email", required=True, pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$") }}
+                    <!-- Small tag to provide additional guidance -->
+                    <small class="form-text text-muted">Please enter a email address.</small>
                 </div>
                 <div class="input-group">
                     {{ login_form.password(placeholder="Password", class="input", id="password", required=True) }}
