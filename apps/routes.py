@@ -14,13 +14,7 @@ def main():
     ]
     return render_template('main.html', posts=posts)
 
-@flaskApp.route('/post_for_answer')
-def post_for_answer():
-    return render_template('post_for_answer.html')
 
-@flaskApp.route('/post_for_service')
-def post_for_service():
-    return render_template('post_for_service.html')
 
 @flaskApp.route('/login', methods=['GET', 'POST'])
 def login():
@@ -84,3 +78,20 @@ def post_for_answer():
 @flaskApp.route('/post_for_service')
 def post_for_service():
     return render_template('post_for_service.html')
+
+@flaskApp.route('/submit_service', methods=['POST'])
+def submit_service():
+    title = request.form.get('title')
+    description = request.form.get('description')
+    # Handle the form submission logic here
+    flash('Service offered successfully!', 'success')
+    return redirect(url_for('main'))
+
+@flaskApp.route('/submit_answer', methods=['POST'])
+def submit_answer():
+    title = request.form.get('title')
+    content = request.form.get('content')
+    # Handle the form submission logic here
+    flash('Answer posted successfully!', 'success')
+    return redirect(url_for('main'))
+
