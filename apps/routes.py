@@ -76,3 +76,11 @@ def registration():
         flash('Registration successful. Please log in.', 'success')
         return redirect(url_for('login'))
     return render_template('login.html', registration_form=registration_form, login_form=login_form)
+
+@flaskApp.route('/post_for_answer')
+def post_for_answer():
+    return render_template('post_for_answer.html')
+
+@flaskApp.route('/post_for_service')
+def post_for_service():
+    return render_template('post_for_service.html')
