@@ -94,3 +94,7 @@ def submit_answer():
     flash('Answer posted successfully!', 'success')
     return redirect(url_for('main'))
 
+@flaskApp.route('/profile')
+@login_required
+def profile():
+    return render_template('profile.html', user=current_user)
