@@ -7,7 +7,6 @@ from apps.models import *
 
 @flaskApp.route('/')
 def main():
-    # 静态帖子数据
     posts = [
         {'id': 1, 'title': 'First Post', 'content': 'This is the content of the first post. Lorem ipsum dolor sit amet...', 'liked': False},
         {'id': 2, 'title': 'Second Post', 'content': 'Here goes the content of the second post, quite longer than the first one...', 'liked': True}
