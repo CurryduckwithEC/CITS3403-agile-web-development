@@ -95,3 +95,15 @@ def edit_profile():
         form.about_me.data = current_user.about_me
     return render_template('edit_profile.html', title='Edit Profile',
                            form=form)
+
+@app.route('/check_tag', methods=['POST'])
+def check_tag():
+    substring = request.form.get('substring')
+
+    # Query the database for posts that contain the substring in the tag
+    matching_posts = Post.query.filter(Post.tag.contains(substring)).all()
+
+    # Convert the results to a list of dictionaries for JSON response
+    results = [{'id': post.id, 'body': post.body, 'tag': post.tag, 'timestamp': post.timestamp} for post in matching_posts]
+
+    return jsonify(results)
