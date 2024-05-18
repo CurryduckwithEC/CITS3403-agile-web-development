@@ -1,4 +1,5 @@
 from flask_wtf import FlaskForm
+from flask_wtf.file import *
 from wtforms import *
 from wtforms.validators import *
 
@@ -20,18 +21,22 @@ class LoginForm(FlaskForm):
     password = PasswordField("Password:", validators=[DataRequired()])
     loginButton = SubmitField("Login")
 
-class EditProfileForm(FlaskForm):
-    username = StringField('Username', validators=[DataRequired()])
-    about_me = TextAreaField('About me', validators=[Length(min=0, max=140)])
-    submit = SubmitField('Submit')
 
-    def __init__(self, original_username, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.original_username = original_username
+class PostForm(FlaskForm):
+    title = StringField('Title', validators=[DataRequired()])
+    content = TextAreaField('Content', validators=[DataRequired()])
+    tags = StringField('Tags (comma separated)')
+    submit = SubmitField('Post')
 
-    def validate_username(self, username):
-        if username.data != self.original_username:
-            user = db.session.scalar(sa.select(User).where(
-                User.username == self.username.data))
-            if user is not None:
-                raise ValidationError('Please use a different username.')
+
+class ProfileForm(FlaskForm):
+    username = StringField("Username:", validators=[DataRequired()])
+    email = StringField("Email:", validators=[DataRequired(), Email()])
+    avatar = FileField("Upload Avatar", validators=[
+        FileAllowed(['jpg', 'png'], 'Images only!'),
+        FileSize(max_size=5 * 1024 * 1024)  # 5 MB limit
+    ])
+    password = PasswordField("New Password", validators=[Optional()])
+    confirm_password = PasswordField("Confirm New Password",
+                                     validators=[EqualTo('password', message='Passwords must match')])
+    submit = SubmitField("Update Profile")
