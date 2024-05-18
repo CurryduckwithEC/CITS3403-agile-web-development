@@ -26,7 +26,7 @@ class PostForm(FlaskForm):
     title = StringField('Title', validators=[DataRequired()])
     content = TextAreaField('Content', validators=[DataRequired()])
     tags = StringField('Tags (comma separated)')
-    submit = SubmitField('Post')
+    submit = SubmitField('Create Post')
 
 
 class ProfileForm(FlaskForm):

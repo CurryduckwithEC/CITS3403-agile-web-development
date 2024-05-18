@@ -1,0 +1,46 @@
+.menu {
+    margin-top: 20px;
+}
+
+#post-feed {
+    padding: 15px;
+    height: calc(100vh - 130px);
+    overflow-y: auto;
+}
+
+.post-card {
+    margin-bottom: 20px;
+}
+
+.post-title {
+    margin-bottom: 10px;
+    font-size: 1.5em;
+}
+
+.post-content {
+    margin-bottom: 10px;
+    font-size: 1.1em;
+}
+
+.card-body .text-muted {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.card-body .d-flex {
+    align-items: center;
+}
+
+.card-body .btn {
+    margin-left: 15px;
+}
+
+.heart-icon {
+    height: 24px;
+    width: auto;
+}
+
+.scroll-loader {
+    text-align: center;
+    padding: 10px 0;
+}

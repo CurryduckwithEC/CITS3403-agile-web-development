@@ -1,59 +1,46 @@
 {% extends "base.html" %}
 
 {% block content %}
-<style>
-    .heart-icon {
-        height: 24px;
-        width: auto;
-    }
-</style>
-
 <main class="container-fluid mt-3">
     <div class="row">
-        <!-- New Post Content -->
-        <div class="col-lg-8" style="height: calc(100vh - 130px); overflow-y: auto;">
-            <div class="card">
-                <div class="card-header">
-                    <h2>Newest Posts</h2>
-                </div>
-                <div class="card-body">
-                    {% if posts %}
-                        {% for post in posts %}
-                            <div class="border-bottom mb-4 pb-2">
-                                <h3> new post</h3>
-                                <p>{{ post.content|truncate(100) }}</p>
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <a class="btn btn-primary btn-sm mr-2" >Read More</a>
-                                    <button class="btn btn-outline-secondary btn-sm">
-                                        <img class="like heart-icon"
-                                             src="{{ url_for('static', filename='images/aixin-2.png') if post.liked else url_for('static', filename='images/aixin.png') }}" alt="Like">
-                                    </button>
-                                </div>
-                            </div>
-                        {% endfor %}
-                    {% else %}
-                        <div class="my-4">
-                            <p>No posts available. Be the first to post!</p>
-                            <a class="btn btn-primary" href="{{ url_for('create_post') }}">Create a New Post</a>
-                        </div>
-                    {% endif %}
-                </div>
+        <!-- Menu -->
+        <div class="col-lg-2">
+            <div class="menu">
+                <a class="btn btn-primary btn-block" href="{{ url_for('create_post') }}" role="button">Create A Post</a>
+                <!-- More menu items can be added here in the future -->
             </div>
         </div>
-
-        <!-- Post Buttons -->
-        <div class="col-lg-4 d-flex flex-column justify-content-around align-items-stretch">
-            <a class="btn btn-success btn-lg btn-block mb-3" href="{{ url_for('post_for_service') }}" role="button"
-               style="padding: 30px; font-size: 1.8em;">
-                <span style="font-size: 1.5em;">Post for</span><br>
-                <strong style="font-size: 2.5em;">Service</strong>
-            </a>
-            <a class="btn btn-info btn-lg btn-block" href="{{ url_for('post_for_answer') }}" role="button"
-               style="padding: 30px; font-size: 1.8em;">
-                <span style="font-size: 1.5em;">Post for</span><br>
-                <strong style="font-size: 2.5em;">Answer</strong>
-            </a>
+        <!-- Post Feed -->
+        <div class="col-lg-10" id="post-feed" style="height: calc(100vh - 130px); overflow-y: auto;">
+            {% if posts %}
+            {% for post in posts %}
+            <div class="card post-card mb-4">
+                <div class="card-body">
+                    <h3 class="post-title">{{ post.title }}</h3>
+                    <p class="post-content">{{ post.content[:200] }}{% if post.content|length > 200 %}...{% endif %}</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <small class="text-muted">By {{ post.author.username }}</small><br>
+                            <small class="text-muted">Created on {{ post.created_at.strftime('%Y-%m-%d %H:%M') }}</small><br>
+                            <small class="text-muted">Last reply on {{ post.last_reply_at.strftime('%Y-%m-%d %H:%M') if post.last_reply_at else 'No replies yet' }}</small>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <span class="mr-3"><i class="fas fa-heart heart-icon"></i> {{ post.likes }}</span>
+                            <span class="mr-3"><i class="fas fa-comments"></i> {{ post.comments_count }}</span>
+                            <a class="btn btn-primary btn-sm" href="{{ url_for('post', post_id=post.id) }}">Read More</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            {% else %}
+            <div class="alert alert-info">No posts available. Be the first to post!</div>
+            {% endif %}
         </div>
     </div>
 </main>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
 {% endblock %}
