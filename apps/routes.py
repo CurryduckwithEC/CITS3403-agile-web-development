@@ -1,5 +1,3 @@
-import os
-
 from flask import *
 from flask_login import *
 from werkzeug.utils import *
@@ -138,28 +136,39 @@ def edit_profile(username):
     if user != current_user:
         abort(403)  # Forbidden if the current user is not the profile owner
     form = ProfileForm()
+    print("Value of form.validate_on_submit: " + str(form.validate_on_submit()))
     if form.validate_on_submit():
+        # Check for username uniqueness.
+        if User.query.filter(User.username == form.username.data, User.id != user.id).first():
+            flash('Username already exists. Please choose a different one.', 'danger')
+            return render_template('edit_profile.html', form=form)
+
+        # Check for email uniqueness.
+        print("\n")
+        print(User.query.filter(User.email == form.email.data, User.id != user.id).first())
+        print("\n")
+
+        if User.query.filter(User.email == form.email.data, User.id != user.id).first():
+            flash('Email already exists. Please choose a different one.', 'danger')
+            return render_template('edit_profile.html', form=form)
+
         if form.avatar.data:
             filename = secure_filename(form.avatar.data.filename)
             avatar_dir = os.path.join(flaskApp.root_path, 'static/images/avatars')
-            print("avatar_dir: " + avatar_dir)
             avatar_path = os.path.join(avatar_dir, filename).replace('\\', '/')
-            print("avatar_path: " + avatar_path)
             form.avatar.data.save(avatar_path)
             user.avatar = os.path.join('images/avatars', filename).replace('\\', '/')
-        existing_user = User.query.filter(
-            (User.username == form.username.data) | (User.email == form.email.data)).first()
-        if existing_user and existing_user != user:
-            flash('Username or email already exists. Please choose a different one.', 'danger')
-        else:
-            user.username = form.username.data
-            user.email = form.email.data
-            # Update password if provided
-            if form.password.data and form.password.data == form.confirm_password.data:
-                user.set_password(form.password.data)
-            db.session.commit()
-            flash('Your profile has been updated!', 'success')
-            return redirect(url_for('profile', username=user.username))
+
+        user.username = form.username.data
+        user.email = form.email.data
+
+        # Update password if provided
+        if form.password.data and form.password.data == form.confirm_password.data:
+            user.set_password(form.password.data)
+
+        db.session.commit()
+        flash('Your profile has been updated!', 'success')
+        return redirect(url_for('profile', username=user.username))
     elif request.method == 'GET':
         form.username.data = user.username
         form.email.data = user.email
