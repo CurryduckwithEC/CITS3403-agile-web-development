@@ -5,7 +5,8 @@
     <h1>Profile of {{ user.username }}</h1>
     <div class="row">
         <div class="col-md-3">
-            <img src="{{ url_for('static', filename=current_user.avatar.replace('static/', '')) }}" class="rounded img-thumbnail" width="200">
+            <img class="rounded img-thumbnail"
+                 src="{{ url_for('static', filename=current_user.avatar.replace('static/', '')) }}" width="200">
         </div>
         <div class="col-md-9">
             <p><strong>Username:</strong> {{ user.username }}</p>
@@ -13,7 +14,7 @@
             <p><strong>Join Date:</strong> {{ user.join_date }}</p>
             <p><strong>Post Count:</strong> {{ user.post_count }}</p>
             {% if user == current_user %}
-                <a href="{{ url_for('edit_profile', username=user.username) }}" class="btn btn-primary">Edit Profile</a>
+            <a class="btn btn-primary" href="{{ url_for('edit_profile', username=user.username) }}">Edit Profile</a>
             {% endif %}
         </div>
     </div>

@@ -38,3 +38,12 @@ footer {
     width: 40px;
     border-radius: 50%;
 }
+
+.flash-message {
+    display: block !important;
+}
+
+.flash-message.hide {
+    opacity: 0;
+    pointer-events: none;
+}
