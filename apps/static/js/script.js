@@ -41,4 +41,21 @@ document.addEventListener('DOMContentLoaded', function() {
             form.submit(); // Submit the form
         }
     });
+
+    // Flash messages handling
+    const flashMessages = document.querySelectorAll('.flash-message');
+
+    flashMessages.forEach(function(message) {
+        // Show the message
+        message.classList.add('show');
+
+        // Set timeout to fade out the message
+        setTimeout(function() {
+            message.classList.remove('show');
+            message.classList.add('fade');
+            setTimeout(function() {
+                message.style.display = 'none';
+            }, 500);
+        }, 5000); // Display for 5 seconds
+    });
 });
