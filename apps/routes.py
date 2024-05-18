@@ -1,26 +1,34 @@
-from flask import *
-from flask_login import login_user, logout_user, login_required
+from flask import Blueprint, render_template, request, flash, redirect, url_for
+from flask_login import login_user, logout_user, login_required, current_user
+from apps import db
+from apps.forms import LoginForm, UserRegistrationForm, PostForm
+from apps.models import User, Post
 
-from apps import *
-from apps.forms import *
-from apps.models import *
+flaskApp = Blueprint('flaskApp', __name__)
 
 @flaskApp.route('/')
 def main():
-    posts = [
-        {'id': 1, 'title': 'First Post', 'content': 'This is the content of the first post. Lorem ipsum dolor sit amet...', 'liked': False},
-        {'id': 2, 'title': 'Second Post', 'content': 'Here goes the content of the second post, quite longer than the first one...', 'liked': True}
-    ]
+    posts = Post.query.order_by(Post.timestamp.desc()).all()
     return render_template('main.html', posts=posts)
 
-
+@flaskApp.route('/create_post', methods=['GET', 'POST'])
+@login_required
+def create_post():
+    form = PostForm()
+    if form.validate_on_submit():
+        post = Post(title=form.title.data, content=form.content.data, user=current_user)
+        db.session.add(post)
+        db.session.commit()
+        flash('Post created successfully!', 'success')
+        return redirect(url_for('flaskApp.main'))
+    return render_template('create_post.html', form=form)
 
 @flaskApp.route('/login', methods=['GET', 'POST'])
 def login():
     login_form = LoginForm()
     registration_form = UserRegistrationForm()
     if request.method == 'GET':
-        return render_template('login.html', login_form =login_form, registration_form=registration_form)
+        return render_template('login.html', login_form=login_form, registration_form=registration_form)
 
     if login_form.validate_on_submit():
         email = login_form.email.data
@@ -28,20 +36,16 @@ def login():
         user = User.query.filter_by(email=email).first()
         if user and user.check_password(password):
             login_user(user)
-            return redirect(url_for('main'))
+            return redirect(url_for('flaskApp.main'))
         else:
             flash('Invalid email or password.', 'danger')
-    return render_template('login.html', login_form =login_form,registration_form=registration_form)
+    return render_template('login.html', login_form=login_form, registration_form=registration_form)
 
 @flaskApp.route('/logout')
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for('login'))
-
-@flaskApp.route('/post')
-def post():
-    return render_template('post.html')
+    return redirect(url_for('flaskApp.login'))
 
 @flaskApp.route('/registration', methods=['GET', 'POST'])
 def registration():
@@ -52,22 +56,19 @@ def registration():
         email = registration_form.email.data
         password = registration_form.password.data
 
-        # Check if the username or email already exists in the database
         existing_user = User.query.filter((User.username == username) | (User.email == email)).first()
         if existing_user:
             flash('Username or email already exists. Please choose a different one.', 'danger')
-            return render_template('registration.html', registration_form=registration_form, login_form=login_form)
+            return render_template('login.html', registration_form=registration_form, login_form=login_form)
 
-        # Create a new user instance
         new_user = User(username=username, email=email)
         new_user.set_password(password)
 
-        # Add the new user to the database
         db.session.add(new_user)
         db.session.commit()
 
         flash('Registration successful. Please log in.', 'success')
-        return redirect(url_for('login'))
+        return redirect(url_for('flaskApp.login'))
     return render_template('login.html', registration_form=registration_form, login_form=login_form)
 
 @flaskApp.route('/post_for_answer')
@@ -82,17 +83,15 @@ def post_for_service():
 def submit_service():
     title = request.form.get('title')
     description = request.form.get('description')
-    # Handle the form submission logic here
     flash('Service offered successfully!', 'success')
-    return redirect(url_for('main'))
+    return redirect(url_for('flaskApp.main'))
 
 @flaskApp.route('/submit_answer', methods=['POST'])
 def submit_answer():
     title = request.form.get('title')
     content = request.form.get('content')
-    # Handle the form submission logic here
     flash('Answer posted successfully!', 'success')
-    return redirect(url_for('main'))
+    return redirect(url_for('flaskApp.main'))
 
 @flaskApp.route('/profile')
 @login_required
