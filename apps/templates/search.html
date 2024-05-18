@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Search Results</h1>
+    <div id="results-container">
+        <!-- Results will be dynamically inserted here -->
+    </div>
+</div>
+{% endblock %}
+
+<script src="{{ url_for('static', filename='js/search_results.js') }}"></script>

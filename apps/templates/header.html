@@ -15,10 +15,10 @@
             </ul>
             <!-- Search Bar -->
             <div class="mx-2 d-flex justify-content-center align-items-center flex-grow-1" style="max-width: 900px;">
-                <form class="form-inline w-100 d-flex justify-content-center align-items-center" method="GET">
-                    <input aria-label="Search" class="form-control mr-2 flex-grow-1" name="query" placeholder="Search"
-                           type="search">
+                <form class="form-inline w-100 d-flex justify-content-center align-items-center" method="GET" action="{{ url_for('search_results') }}">
+                    <input aria-label="Search" class="form-control mr-2 flex-grow-1" name="query" id="search-input" placeholder="Search" type="search">
                     <button class="btn btn-outline-success" type="submit">Search</button>
+                    <div id="search-results" class="dropdown-menu show" style="width: 100%;"></div>
                 </form>
             </div>
         </div>
@@ -44,3 +44,5 @@
         {% endif %}
     </nav>
 </header>
+
+<script src="{{ url_for('static', filename='js/search.js') }}"></script>
