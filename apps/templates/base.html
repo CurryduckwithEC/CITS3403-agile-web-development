@@ -21,7 +21,7 @@
 </head>
 <body>
 {% include "header.html" %}
-<main>
+<main class="central-container">
     {% block content %}{% endblock %}
 </main>
 <footer class="bg-dark text-white text-center p-3">
@@ -33,9 +33,5 @@
 <script crossorigin="anonymous"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-<script src="{{ url_for('static', filename='js/script.js') }}"></script>
-<script src="{{ url_for('static', filename='js/profile.js') }}"></script>
-<script src="{{ url_for('static', filename='js/main.js') }}"></script>
-<script src="{{ url_for('static', filename='js/login.js') }}"></script>
 </body>
 </html>

@@ -5,7 +5,7 @@
     <div class="post-wrapper">
         <div class="post-content">
             <h2>{{ post.title }}</h2>
-            <p>{{ post.content }}</p>
+            <div>{{ post.content | safe }}</div>
             <p>Author: {{ post.author.username }}</p>
             <p>Created on: {{ post.created_at.strftime('%Y-%m-%d %H:%M') }}</p>
             <p>Likes: {{ post.likes_count }}</p>
@@ -16,19 +16,19 @@
             <ul class="list-unstyled">
                 {% for comment in post.comments if comment.parent_id is none %}
                 <li class="media my-4">
-                    <img class="mr-3 rounded-circle" src="{{ url_for('static', filename=comment.author.avatar) }}" alt="Avatar" style="height: 50px; width: 50px;">
+                    <img class="comment-avatar" src="{{ url_for('static', filename=comment.author.avatar) }}" alt="Avatar">
                     <div class="media-body">
                         <h5 class="mt-0 mb-1">{{ comment.author.username }}</h5>
-                        <p>{{ comment.content }}</p>
+                        <div>{{ comment.content | safe }}</div>
                         <small class="text-muted">{{ comment.created_at.strftime('%Y-%m-%d %H:%M') }}</small>
                         {% if comment.replies %}
                         <ul class="list-unstyled mt-3">
                             {% for reply in comment.replies %}
                             <li class="media my-2">
-                                <img class="mr-3 rounded-circle" src="{{ url_for('static', filename=reply.author.avatar) }}" alt="Avatar" style="height: 30px; width: 30px;">
+                                <img class="reply-avatar" src="{{ url_for('static', filename=reply.author.avatar) }}" alt="Avatar">
                                 <div class="media-body">
                                     <h6 class="mt-0 mb-1">{{ reply.author.username }}</h6>
-                                    <p>{{ reply.content }}</p>
+                                    <div>{{ reply.content | safe}}</div>
                                     <small class="text-muted">{{ reply.created_at.strftime('%Y-%m-%d %H:%M') }}</small>
                                 </div>
                             </li>

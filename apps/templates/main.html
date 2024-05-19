@@ -1,23 +1,23 @@
 {% extends "base.html" %}
 
 {% block content %}
-<main class="container-fluid mt-3">
+<main class="central-container">
     <div class="row">
         <!-- Menu -->
         <div class="col-lg-2">
             <div class="menu">
                 <a class="btn btn-primary btn-block" href="{{ url_for('create_post') }}" role="button">Create A Post</a>
-                <!-- More menu items can be added here in the future -->
             </div>
         </div>
         <!-- Post Feed -->
-        <div class="col-lg-10 post-feed" id="post-feed">
+        <div class="col-lg-10 post-feed">
             {% if posts %}
             {% for post in posts %}
             <div class="card post-card mb-4">
                 <div class="card-body">
                     <h3 class="post-title">{{ post.title }}</h3>
-                    <p class="post-content">{{ post.content[:200] }}{% if post.content|length > 200 %}...{% endif %}</p>
+                    <div class="post-content">{{ post.content[:200]|safe }}{% if post.content|length > 200 %}...{%
+                        endif %}</div>
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
                             <small class="text-muted">Author: {{ post.author.username }}</small><br>
