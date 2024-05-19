@@ -2,18 +2,12 @@ from flask_wtf import FlaskForm
 from flask_wtf.file import *
 from wtforms import *
 from wtforms.validators import *
+from flask_ckeditor import CKEditorField
 
 
-class UserRegistrationForm(FlaskForm):
-    form_type = HiddenField(default='register')
-    username = StringField("Username:", validators=[DataRequired()])
-    email = StringField("Email:", validators=[DataRequired(), Email()])
-    password = PasswordField("Password:", validators=[DataRequired()])
-    confirmPassword = PasswordField("Confirm Password:", validators=[DataRequired(), EqualTo('password',
-                                                                                             message='Passwords must match')])
-    submitButton = SubmitField("Submit")
-    resetButton = SubmitField("Reset")
-
+class CommentForm(FlaskForm):
+    content = CKEditorField('Content', validators=[DataRequired()])
+    submit = SubmitField('Submit')
 
 class LoginForm(FlaskForm):
     form_type = HiddenField(default='login')
@@ -24,9 +18,9 @@ class LoginForm(FlaskForm):
 
 class PostForm(FlaskForm):
     title = StringField('Title', validators=[DataRequired()])
-    content = TextAreaField('Content', validators=[DataRequired()])
+    content = CKEditorField('Content', validators=[DataRequired()])
     tags = StringField('Tags (comma separated)')
-    submit = SubmitField('Post')
+    submit = SubmitField('Create Post')
 
 
 class ProfileForm(FlaskForm):
@@ -40,3 +34,14 @@ class ProfileForm(FlaskForm):
     confirm_password = PasswordField("Confirm New Password",
                                      validators=[EqualTo('password', message='Passwords must match')])
     submit = SubmitField("Update Profile")
+
+
+class UserRegistrationForm(FlaskForm):
+    form_type = HiddenField(default='register')
+    username = StringField("Username:", validators=[DataRequired()])
+    email = StringField("Email:", validators=[DataRequired(), Email()])
+    password = PasswordField("Password:", validators=[DataRequired()])
+    confirmPassword = PasswordField("Confirm Password:", validators=[DataRequired(), EqualTo('password',
+                                                                                             message='Passwords must match')])
+    submitButton = SubmitField("Submit")
+    resetButton = SubmitField("Reset")
