@@ -56,4 +56,38 @@ footer {
 .flash-message.fade {
     transition: opacity 0.5s ease-out;
     opacity: 0;
+    pointer-events: none;
+}
+
+#results-container {
+    max-width: 800px;
+    margin: 0 auto; /* 居中显示 */
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 15px;
+    background-color: #f9f9f9;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* 结果项样式 */
+.result-item {
+    border-bottom: 1px solid #ddd;
+    padding: 10px 0;
+}
+
+.result-item:last-child {
+    border-bottom: none;
+}
+
+.result-item h3 {
+    margin: 0 0 5px;
+}
+
+.result-item p {
+    margin: 0 0 5px;
+    color: #555;
+}
+
+.result-item small {
+    color: #999;
 }

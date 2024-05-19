@@ -11,7 +11,7 @@
         </div>
         <div class="form-group">
             {{ form.content.label(class="form-label") }}
-            {{ ckeditor.config(name='content', value=form.content.data) }}
+            {{ form.content(class="form-control") }}
         </div>
         <div class="form-group">
             {{ form.tags.label(class="form-label") }}
