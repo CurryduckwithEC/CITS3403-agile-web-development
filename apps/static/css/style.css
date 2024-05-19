@@ -40,10 +40,21 @@ footer {
 }
 
 .flash-message {
-    display: block !important;
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1050;
+    min-width: 250px;
+    opacity: 0.95;
+    display: none; /* Initially hidden */
 }
 
-.flash-message.hide {
+.flash-message.show {
+    display: block; /* Show when the .show class is added */
+}
+
+.flash-message.fade {
+    transition: opacity 0.5s ease-out;
     opacity: 0;
     pointer-events: none;
 }
