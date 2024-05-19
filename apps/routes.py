@@ -117,7 +117,7 @@ def get_trending_posts():
         'author': post.author.username,
         'created_at': post.created_at.strftime('%Y-%m-%d %H:%M'),
         'last_reply_at': post.last_reply_at.strftime('%Y-%m-%d %H:%M') if post.last_reply_at else 'No replies yet',
-        'liked': post.likes,
+        'liked': post.is_liked_by_current_user(current_user),
         'comments_count': len(post.comments)
     } for post in posts_paginated.items]
 
@@ -232,3 +232,21 @@ def search():
         }
         return jsonify(results)
     return jsonify({'posts': [], 'comments': [], 'users': [], 'tags': []})
+
+@flaskApp.route('/like/<int:post_id>', methods=['POST'])
+@login_required
+def like_post(post_id):
+    post = Post.query.get_or_404(post_id)
+    existing_like = Like.query.filter_by(post_id=post_id, user_id=current_user.id).first()
+
+    if existing_like:
+        db.session.delete(existing_like)
+        db.session.commit()
+        likes_count = Like.query.filter_by(post_id=post_id).count()
+        return jsonify({'status': 'success', 'likes': likes_count, 'liked': False})
+    else:
+        new_like = Like(post_id=post_id, user_id=current_user.id)
+        db.session.add(new_like)
+        db.session.commit()
+        likes_count = Like.query.filter_by(post_id=post_id).count()
+        return jsonify({'status': 'success', 'likes': likes_count, 'liked': True})

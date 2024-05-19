@@ -53,6 +53,11 @@ class Post(db.Model):
     def comments_count(self):
         return Comment.query.filter_by(post_id=self.id).count()
 
+    def is_liked_by_current_user(self, user):
+        if user.is_authenticated:
+            return Like.query.filter_by(post_id=self.id, user_id=user.id).count() > 0
+        return False
+
     def __repr__(self):
         return f'<Post {self.title}>'
 
