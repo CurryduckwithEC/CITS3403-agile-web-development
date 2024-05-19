@@ -187,3 +187,18 @@ def check_email():
     email = request.form['email']
     user = User.query.filter_by(email=email).first()
     return jsonify({'exists': user is not None})
+
+@flaskApp.route('/search', methods=['GET'])
+def search():
+    query = request.args.get('query')
+    if not query:
+        return jsonify([])
+
+    posts = Post.query.filter(Post.content.like(f'%{query}%')).all()
+    results = [{'id': post.id, 'title': post.title, 'content': post.content[:100]} for post in posts]
+    return jsonify(results)
+
+
+@flaskApp.route('/search_results')
+def search_results():
+    return render_template('search.html')
