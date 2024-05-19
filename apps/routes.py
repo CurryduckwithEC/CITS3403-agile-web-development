@@ -213,25 +213,21 @@ def tag(tag_id):
     tag = Tag.query.get_or_404(tag_id)
     posts = tag.posts
     return render_template('tag.html', tag=tag, posts=posts)
-
-
 @flaskApp.route('/search', methods=['GET'])
 def search():
     query = request.args.get('query', '')
     if query:
-        posts = Post.query.filter((Post.title.ilike(f'%{query}%')) | (Post.content.ilike(f'%{query}%')) | (Post.tags.any(Tag.name.ilike(f'%{query}%')))).all()
+        posts = Post.query.filter((Post.title.ilike(f'%{query}%')) | (Post.content.ilike(f'%{query}%'))).all()
         comments = Comment.query.filter(Comment.content.ilike(f'%{query}%')).all()
         users = User.query.filter(User.username.ilike(f'%{query}%')).all()
-        tags = Tag.query.filter(Tag.name.ilike(f'%{query}%')).all()
 
         results = {
-            'posts': [{'id': post.id, 'title': post.title, 'content': post.content, 'author': post.author.username, 'tags': [tag.name for tag in post.tags]} for post in posts],
+            'posts': [{'title': post.title, 'content': post.content, 'author': post.author.username} for post in posts],
             'comments': [{'content': comment.content, 'author': comment.author.username} for comment in comments],
-            'users': [{'username': user.username} for user in users],
-            'tags': [{'name': tag.name} for tag in tags]
+            'users': [{'username': user.username} for user in users]
         }
         return jsonify(results)
-    return jsonify({'posts': [], 'comments': [], 'users': [], 'tags': []})
+    return jsonify({'posts': [], 'comments': [], 'users': []})
 
 @flaskApp.route('/like/<int:post_id>', methods=['POST'])
 @login_required
@@ -250,3 +246,4 @@ def like_post(post_id):
         db.session.commit()
         likes_count = Like.query.filter_by(post_id=post_id).count()
         return jsonify({'status': 'success', 'likes': likes_count, 'liked': True})
+
