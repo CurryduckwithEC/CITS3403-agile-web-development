@@ -5,6 +5,10 @@ from wtforms.validators import *
 from flask_ckeditor import CKEditorField
 
 
+class CommentForm(FlaskForm):
+    content = CKEditorField('Content', validators=[DataRequired()])
+    submit = SubmitField('Submit')
+
 class LoginForm(FlaskForm):
     form_type = HiddenField(default='login')
     email = StringField("Email:", validators=[DataRequired(), Email()])

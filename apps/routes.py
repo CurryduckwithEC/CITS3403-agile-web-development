@@ -13,6 +13,19 @@ def main():
     return render_template('main.html', posts=posts)
 
 
+@flaskApp.route('/add_comment/<int:post_id>', methods=['POST'])
+@login_required
+def add_comment(post_id):
+    post = Post.query.get_or_404(post_id)
+    form = CommentForm()
+    if form.validate_on_submit():
+        comment = Comment(content=form.content.data, author=current_user, post=post)
+        db.session.add(comment)
+        db.session.commit()
+        flash('Your comment has been added!', 'success')
+    return redirect(url_for('post', post_id=post.id))
+
+
 @flaskApp.route('/check_email', methods=['POST'])
 def check_email():
     data = request.get_json()
@@ -165,25 +178,21 @@ def logout():
     return redirect(url_for('login'))
 
 
-@flaskApp.route('/post/<int:post_id>')
+@flaskApp.route('/post/<int:post_id>', methods=['GET', 'POST'])
 def post(post_id):
-    post = {
-        "id": post_id,
-        "title": "Dummy Post",
-        "content": "This is a placeholder for a post."
-    }
-    return render_template('post.html', post=post)
-
-
-@flaskApp.route('/post_for_answer')
-def post_for_answer():
-    return render_template('post_for_answer.html')
-
-
-@flaskApp.route('/post_for_service')
-def post_for_service():
-    return render_template('post_for_service.html')
-
+    post = Post.query.get_or_404(post_id)
+    form = CommentForm()
+    if form.validate_on_submit():
+        if current_user.is_authenticated:
+            comment = Comment(content=form.content.data, author=current_user, post=post)
+            db.session.add(comment)
+            db.session.commit()
+            flash('Your comment has been added!', 'success')
+            return redirect(url_for('post', post_id=post.id))
+        else:
+            flash('You need to log in to add a comment.', 'danger')
+            return redirect(url_for('login'))
+    return render_template('post.html', post=post, form=form)
 
 # Route for user profile
 @flaskApp.route('/profile/<username>')
