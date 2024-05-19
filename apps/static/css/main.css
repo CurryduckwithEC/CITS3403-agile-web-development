@@ -1,38 +1,20 @@
-.menu {
-    margin-top: 20px;
-}
-
 #post-feed {
     padding: 15px;
     height: calc(100vh - 130px);
     overflow-y: auto;
 }
 
-.post-card {
-    margin-bottom: 20px;
-}
-
-.post-title {
-    margin-bottom: 10px;
-    font-size: 1.5em;
-}
-
-.post-content {
-    margin-bottom: 10px;
-    font-size: 1.1em;
-}
-
-.card-body .text-muted {
-    display: block;
-    margin-bottom: 5px;
+.card-body .btn {
+    margin-left: 15px;
 }
 
 .card-body .d-flex {
     align-items: center;
 }
 
-.card-body .btn {
-    margin-left: 15px;
+.card-body .text-muted {
+    display: block;
+    margin-bottom: 2px;
 }
 
 .heart-icon {
@@ -40,7 +22,29 @@
     width: auto;
 }
 
+.menu {
+    margin-top: 20px;
+}
+
+.post-card {
+    margin-bottom: 20px;
+}
+
+.post-content {
+    margin-bottom: 10px;
+    font-size: 1.1em;
+}
+
+.post-title {
+    margin-bottom: 10px;
+    font-size: 1.5em;
+}
+
 .scroll-loader {
     text-align: center;
     padding: 10px 0;
+}
+
+.d-flex.align-items-center .mr-3 {
+    margin-right: 1rem;
 }

@@ -90,23 +90,26 @@ def edit_profile(username):
         form.email.data = user.email
     return render_template('edit_profile.html', form=form, user=user)
 
+
 @flaskApp.route('/get_trending_posts')
 def get_trending_posts():
     page = request.args.get('page', 1, type=int)
-    per_page = 10
-    posts_query = Post.query.order_by(Post.timestamp.desc())
-    posts_paginated = posts_query.paginate(page, per_page, False)
+    per_page = request.args.get('per_page', 10, type=int)
+    posts_query = Post.query.order_by(Post.created_at.desc())
+    posts_paginated = posts_query.paginate(page=page, per_page=per_page, error_out=False)
     posts = [{
         'id': post.id,
         'title': post.title,
-        'content': post.content[:100],  # truncated content
-        'liked': post.liked  # assuming you have a liked attribute or method
+        'content': post.content[:200] + '...' if len(post.content) > 200 else post.content,
+        'author': post.author.username,
+        'created_at': post.created_at.strftime('%Y-%m-%d %H:%M'),
+        'last_reply_at': post.last_reply_at.strftime('%Y-%m-%d %H:%M') if post.last_reply_at else 'No replies yet',
+        'liked': post.likes,
+        'comments_count': len(post.comments)
     } for post in posts_paginated.items]
 
-    return jsonify({
-        'posts': posts,
-        'has_more': posts_paginated.has_next
-    })
+    return jsonify(posts=posts, has_next=posts_paginated.has_next)
+
 
 @flaskApp.context_processor
 def inject_user():
