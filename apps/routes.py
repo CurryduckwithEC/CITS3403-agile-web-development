@@ -204,3 +204,18 @@ def tag(tag_id):
     tag = Tag.query.get_or_404(tag_id)
     posts = tag.posts
     return render_template('tag.html', tag=tag, posts=posts)
+@flaskApp.route('/search', methods=['GET'])
+def search():
+    query = request.args.get('query', '')
+    if query:
+        posts = Post.query.filter((Post.title.ilike(f'%{query}%')) | (Post.content.ilike(f'%{query}%'))).all()
+        comments = Comment.query.filter(Comment.content.ilike(f'%{query}%')).all()
+        users = User.query.filter(User.username.ilike(f'%{query}%')).all()
+
+        results = {
+            'posts': [{'title': post.title, 'content': post.content, 'author': post.author.username} for post in posts],
+            'comments': [{'content': comment.content, 'author': comment.author.username} for comment in comments],
+            'users': [{'username': user.username} for user in users]
+        }
+        return jsonify(results)
+    return jsonify({'posts': [], 'comments': [], 'users': []})

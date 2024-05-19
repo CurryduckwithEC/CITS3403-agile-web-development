@@ -3,10 +3,12 @@
 {% block content %}
 <div class="container mt-4">
     <h1>Search Results</h1>
-    <div id="results-container">
+    <div id="results-container" class="card p-3">
         <!-- Results will be dynamically inserted here -->
     </div>
 </div>
 {% endblock %}
 
+{% block scripts %}
 <script src="{{ url_for('static', filename='js/search_results.js') }}"></script>
+{% endblock %}
