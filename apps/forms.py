@@ -1,14 +1,17 @@
+from flask_ckeditor import CKEditorField
 from flask_wtf import FlaskForm
 from flask_wtf.file import *
 from wtforms import *
 from wtforms.validators import *
-from flask_ckeditor import CKEditorField
 
 
+# Comment form.
 class CommentForm(FlaskForm):
     content = CKEditorField('Content', validators=[DataRequired()])
     submit = SubmitField('Submit')
 
+
+# Login form.
 class LoginForm(FlaskForm):
     form_type = HiddenField(default='login')
     email = StringField("Email:", validators=[DataRequired(), Email()])
@@ -16,6 +19,7 @@ class LoginForm(FlaskForm):
     loginButton = SubmitField("Login")
 
 
+# Post form.
 class PostForm(FlaskForm):
     title = StringField('Title', validators=[DataRequired()])
     content = CKEditorField('Content', validators=[DataRequired()])
@@ -23,6 +27,7 @@ class PostForm(FlaskForm):
     submit = SubmitField('Create Post')
 
 
+# Edit profile form.
 class ProfileForm(FlaskForm):
     username = StringField("Username:", validators=[DataRequired()])
     email = StringField("Email:", validators=[DataRequired(), Email()])
@@ -36,6 +41,7 @@ class ProfileForm(FlaskForm):
     submit = SubmitField("Update Profile")
 
 
+# New user registration form.
 class UserRegistrationForm(FlaskForm):
     form_type = HiddenField(default='register')
     username = StringField("Username:", validators=[DataRequired()])

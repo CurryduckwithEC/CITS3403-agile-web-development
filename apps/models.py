@@ -6,6 +6,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from apps import db
 
 
+# Data model of comments.
 class Comment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.Text, nullable=False)
@@ -23,6 +24,7 @@ class Comment(db.Model):
         return f'<Comment {self.content[:20]}>'
 
 
+# Data model of likes.
 class Like(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
@@ -34,6 +36,7 @@ class Like(db.Model):
         return f'<Like by User {self.user_id}>'
 
 
+# Data model of posts.
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100), nullable=False)
@@ -52,7 +55,7 @@ class Post(db.Model):
     @property
     def comments_count(self):
         return Comment.query.filter_by(post_id=self.id).count()
-    
+
     def is_liked_by_current_user(self, user):
         if user.is_authenticated:
             return Like.query.filter_by(post_id=self.id, user_id=user.id).count() > 0
@@ -62,12 +65,14 @@ class Post(db.Model):
         return f'<Post {self.title}>'
 
 
+# Tag-post many-to-many relationship.
 class PostTag(db.Model):
     __tablename__ = 'post_tag'
     post_id = db.Column(db.Integer, db.ForeignKey('post.id'), primary_key=True)
     tag_id = db.Column(db.Integer, db.ForeignKey('tag.id'), primary_key=True)
 
 
+# Data model of tags.
 class Tag(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(30), unique=True, nullable=False)
@@ -76,6 +81,7 @@ class Tag(db.Model):
         return f'<Tag {self.name}>'
 
 
+# Data model of users.
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(30), unique=True, nullable=False)

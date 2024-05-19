@@ -7,12 +7,14 @@ from apps.forms import *
 from apps.models import *
 
 
+# The main page.
 @flaskApp.route('/')
 def main():
     posts = Post.query.all()
     return render_template('main.html', posts=posts)
 
 
+# Adding a comment to a post.
 @flaskApp.route('/add_comment/<int:post_id>', methods=['POST'])
 @login_required
 def add_comment(post_id):
@@ -26,6 +28,7 @@ def add_comment(post_id):
     return redirect(url_for('post', post_id=post.id))
 
 
+# Ajax for email checking when editing profile.
 @flaskApp.route('/check_email', methods=['POST'])
 def check_email():
     data = request.get_json()
@@ -34,6 +37,7 @@ def check_email():
     return jsonify({'exists': user is not None})
 
 
+# Ajax for username checking when editing profile.
 @flaskApp.route('/check_username', methods=['POST'])
 def check_username():
     data = request.get_json()
@@ -42,6 +46,7 @@ def check_username():
     return jsonify({'exists': user is not None})
 
 
+# The page for creating a post.
 @flaskApp.route('/create_post', methods=['GET', 'POST'])
 @login_required
 def create_post():
@@ -63,6 +68,7 @@ def create_post():
     return render_template('create_post.html', form=form)
 
 
+# The page for editing profile.
 @flaskApp.route('/profile/<username>/edit', methods=['GET', 'POST'])
 @login_required
 def edit_profile(username):
@@ -104,6 +110,7 @@ def edit_profile(username):
     return render_template('edit_profile.html', form=form, user=user)
 
 
+# Post feed in the main page.
 @flaskApp.route('/get_trending_posts')
 def get_trending_posts():
     page = request.args.get('page', 1, type=int)
@@ -129,6 +136,7 @@ def inject_user():
     return dict(current_user=current_user)
 
 
+# The login page.
 @flaskApp.route('/login', methods=['GET', 'POST'])
 def login():
     login_form = LoginForm()
@@ -171,6 +179,7 @@ def login():
     return render_template('login.html', login_form=login_form, registration_form=registration_form)
 
 
+# The functionality of logging out.
 @flaskApp.route('/logout')
 @login_required
 def logout():
@@ -178,6 +187,7 @@ def logout():
     return redirect(url_for('login'))
 
 
+# The post page with comments.
 @flaskApp.route('/post/<int:post_id>', methods=['GET', 'POST'])
 def post(post_id):
     post = Post.query.get_or_404(post_id)
@@ -194,6 +204,8 @@ def post(post_id):
             return redirect(url_for('login'))
     return render_template('post.html', post=post, form=form)
 
+
+# The profile page.
 # Route for user profile
 @flaskApp.route('/profile/<username>')
 @login_required
@@ -213,6 +225,9 @@ def tag(tag_id):
     tag = Tag.query.get_or_404(tag_id)
     posts = tag.posts
     return render_template('tag.html', tag=tag, posts=posts)
+
+
+# The search functionality.
 @flaskApp.route('/search', methods=['GET'])
 def search():
     query = request.args.get('query', '')
@@ -228,6 +243,7 @@ def search():
         }
         return jsonify(results)
     return jsonify({'posts': [], 'comments': [], 'users': []})
+
 
 @flaskApp.route('/like/<int:post_id>', methods=['POST'])
 @login_required
@@ -246,4 +262,3 @@ def like_post(post_id):
         db.session.commit()
         likes_count = Like.query.filter_by(post_id=post_id).count()
         return jsonify({'status': 'success', 'likes': likes_count, 'liked': True})
-
