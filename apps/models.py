@@ -82,7 +82,7 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(30), unique=True, nullable=False)
     hashedPassword = db.Column(db.String(128), nullable=False)
     join_date = db.Column(db.DateTime, default=datetime.utcnow)
-    avatar = db.Column(db.String(200), nullable=False, default='static/images/avatars/default_avatar.png')
+    avatar = db.Column(db.String(200), nullable=False, default='images/avatars/default_avatar.png')
     posts = db.relationship('Post', backref='author', lazy=True)
     comments = db.relationship('Comment', backref='author', lazy=True)
     likes = db.relationship('Like', backref='user', lazy=True)
