@@ -1,30 +1,31 @@
 {% extends "base.html" %}
 
 {% block content %}
-<main class="container-fluid mt-3">
+<main class="central-container">
     <div class="row">
         <!-- Menu -->
         <div class="col-lg-2">
             <div class="menu">
-                <a class="btn btn-primary btn-block" href="{{ url_for('create_post') }}" role="button">Create A Post</a>
-                <!-- More menu items can be added here in the future -->
+                <a class="btn btn-success btn-lg btn-block mb-3" href="{{ url_for('create_post') }}" role="button" style="padding: 30px; font-size: 1.8em;">
+                    Create Post<a>
             </div>
         </div>
         <!-- Post Feed -->
-        <div class="col-lg-10 post-feed" id="post-feed">
+        <div class="col-lg-10 post-feed">
             {% if posts %}
             {% for post in posts %}
             <div class="card post-card mb-4">
                 <div class="card-body">
                     <h3 class="post-title">{{ post.title }}</h3>
-                    <p class="post-content">{{ post.content[:200] }}{% if post.content|length > 200 %}...{% endif %}</p>
+                    <div class="post-content">{{ post.content[:200]|safe }}{% if post.content|length > 200 %}...{% endif %}</div>
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
                             <small class="text-muted">Author: {{ post.author.username }}</small><br>
                             <small class="text-muted">Created on {{ post.created_at.strftime('%Y-%m-%d %H:%M') }}</small><br>
                         </div>
                         <div class="d-flex align-items-center">
-                            <span class="mr-3">Likes: {{ post.likes_count }}</span>
+                            <span class="mr-3">Likes: <span id="likes-count-{{ post.id }}">{{ post.likes_count }}</span></span>
+                            <img id="like-icon-{{ post.id }}" class="like-icon" src="{{ url_for('static', filename='images/aixin.png') }}" alt="Like" data-post-id="{{ post.id }}" style="cursor: pointer; width: 24px; height: 24px;">
                             <span class="mr-3">Comments: {{ post.comments_count }}</span>
                             <a class="btn btn-primary btn-sm" href="{{ url_for('post', post_id=post.id) }}">Read More</a>
                         </div>
@@ -41,5 +42,5 @@
 {% endblock %}
 
 {% block scripts %}
-<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+<script src="{{ url_for('static', filename = 'js/main.js') }}"></script>
 {% endblock %}

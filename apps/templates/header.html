@@ -1,5 +1,6 @@
 <header class="bg-dark text-white p-3">
     <nav class="navbar navbar-expand-lg navbar-dark">
+        <!--Logo-->
         <a class="navbar-brand" href="{{ url_for('main') }}">
             <img alt="Website Logo" src="{{ url_for('static', filename='images/logo.png') }}" style="height: 50px;">
         </a>
@@ -18,6 +19,7 @@
             </div>
         </div>
         <div class="form-inline">
+            <!--For logged in users-->
             {% if current_user.is_authenticated %}
             <div class="dropdown">
                 <a aria-expanded="false" aria-haspopup="true" class="btn btn-secondary dropdown-toggle"
@@ -30,10 +32,9 @@
                 </div>
             </div>
             {% else %}
-            <a class="btn btn-primary" href="{{ url_for('login') }}">Sign In / Log In</a>
+            <a class="btn btn-primary" href="{{ url_for('login') }}">Sign Up / Log In</a>
             {% endif %}
         </div>
         {% endif %}
     </nav>
 </header>
-<div id="results-container"></div>

@@ -13,15 +13,18 @@ document.addEventListener('DOMContentLoaded', function() {
                     .then(data => {
                         resultsContainer.innerHTML = '';
                         if (data.posts.length) {
+                            resultsContainer.innerHTML += `<h3>Posts</h3>`;
                             data.posts.forEach(post => {
                                 resultsContainer.innerHTML += `<div class="result-item">
-                                    <h3>${post.title}</h3>
+                                    <h4><a href="/post/${post.id}">${post.title}</a></h4>
                                     <p>${post.content}</p>
                                     <small>Author: ${post.author}</small>
+                                    <p>Tags: ${post.tags.join(', ')}</p>
                                 </div>`;
                             });
                         }
                         if (data.comments.length) {
+                            resultsContainer.innerHTML += `<h3>Comments</h3>`;
                             data.comments.forEach(comment => {
                                 resultsContainer.innerHTML += `<div class="result-item">
                                     <p>${comment.content}</p>
@@ -30,9 +33,18 @@ document.addEventListener('DOMContentLoaded', function() {
                             });
                         }
                         if (data.users.length) {
+                            resultsContainer.innerHTML += `<h3>Users</h3>`;
                             data.users.forEach(user => {
                                 resultsContainer.innerHTML += `<div class="result-item">
-                                    <p>Username: ${user.username}</p>
+                                    <p><a href="/profile/${user.username}">${user.username}</a></p>
+                                </div>`;
+                            });
+                        }
+                        if (data.tags.length) {
+                            resultsContainer.innerHTML += `<h3>Tags</h3>`;
+                            data.tags.forEach(tag => {
+                                resultsContainer.innerHTML += `<div class="result-item">
+                                    <p>Tag: ${tag.name}</p>
                                 </div>`;
                             });
                         }
@@ -40,6 +52,6 @@ document.addEventListener('DOMContentLoaded', function() {
             } else {
                 resultsContainer.innerHTML = '';
             }
-        }, 200); // delay in milliseconds
+        }, 200); 
     });
 });
