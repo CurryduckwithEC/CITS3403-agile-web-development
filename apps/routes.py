@@ -235,11 +235,13 @@ def search():
         posts = Post.query.filter((Post.title.ilike(f'%{query}%')) | (Post.content.ilike(f'%{query}%'))).all()
         comments = Comment.query.filter(Comment.content.ilike(f'%{query}%')).all()
         users = User.query.filter(User.username.ilike(f'%{query}%')).all()
+        tags = Tag.query.filter(Tag.name.ilike(f'%{query}%')).all()
 
         results = {
-            'posts': [{'title': post.title, 'content': post.content, 'author': post.author.username} for post in posts],
+            'posts': [{'id': post.id, 'title': post.title, 'content': post.content, 'author': post.author.username, 'tags': [tag.name for tag in post.tags]} for post in posts],
             'comments': [{'content': comment.content, 'author': comment.author.username} for comment in comments],
-            'users': [{'username': user.username} for user in users]
+            'users': [{'username': user.username} for user in users],
+            'tags': [{'name': tag.name} for tag in tags]
         }
         return jsonify(results)
     return jsonify({'posts': [], 'comments': [], 'users': []})
