@@ -1,25 +1,41 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const signInBtn = document.getElementById("signIn");
-    const signUpBtn = document.getElementById("signUp");
-    const registrationForm = document.getElementById("registrationForm");
-    const loginForm = document.getElementById("loginForm");
-    const container = document.querySelector(".container");
+    const loginModule = {
+        signInBtn: document.getElementById("loginSignIn"),
+        signUpBtn: document.getElementById("loginSignUp"),
+        container: document.querySelector(".login-container"),
 
-    signInBtn.addEventListener("click", () => {
-        container.classList.remove("right-panel-active");
-    });
+        init: function() {
+            console.log("Initializing login module");
 
-    signUpBtn.addEventListener("click", () => {
-        container.classList.add("right-panel-active");
-    });
+            if (this.signInBtn && this.signUpBtn && this.container) {
+                // Remove any existing event listeners to avoid conflicts
+                this.removeEventListeners();
 
-    registrationForm.addEventListener("submit", (e) => {
-        e.preventDefault();
-        registrationForm.submit();
-    });
+                // Add event listeners
+                this.signInBtn.addEventListener("click", this.handleSignIn.bind(this));
+                this.signUpBtn.addEventListener("click", this.handleSignUp.bind(this));
+            } else {
+                console.error("Sign In or Sign Up buttons or container not found!");
+            }
+        },
 
-    loginForm.addEventListener("submit", (e) => {
-        e.preventDefault();
-        loginForm.submit();
-    });
+        handleSignIn: function() {
+            console.log("Sign In button clicked");
+            this.container.classList.remove("right-panel-active");
+        },
+
+        handleSignUp: function() {
+            console.log("Sign Up button clicked");
+            this.container.classList.add("right-panel-active");
+        },
+
+        removeEventListeners: function() {
+            console.log("Removing existing event listeners");
+
+            this.signInBtn.removeEventListener("click", this.handleSignIn);
+            this.signUpBtn.removeEventListener("click", this.handleSignUp);
+        }
+    };
+
+    loginModule.init();
 });

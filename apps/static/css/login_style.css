@@ -31,7 +31,7 @@ main.login-container {
     flex-grow: 1;
 }
 
-.login-container .container {
+.login-container .login-container {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -61,6 +61,11 @@ footer {
     margin-bottom: 1.25rem;
 }
 
+.small-title {
+    font-size: 1.5rem; 
+    margin-top: 20px;
+}
+
 .link {
     color: var(--gray);
     font-size: 0.9rem;
@@ -68,7 +73,7 @@ footer {
     text-decoration: none;
 }
 
-.container {
+.login-container {
     background-color: var(--white);
     border-radius: var(--button-radius);
     box-shadow: 0 0.9rem 1.7rem rgba(0, 0, 0, 0.25),
@@ -80,38 +85,38 @@ footer {
     width: 100%;
 }
 
-.container__form {
+.login-container__form {
     height: 100%;
     position: absolute;
     top: 0;
     transition: all 0.6s ease-in-out;
 }
 
-.container--signin {
+.login-container--signin {
     left: 0;
     width: 50%;
     z-index: 2;
 }
 
-.container.right-panel-active .container--signin {
+.login-container.right-panel-active .login-container--signin {
     transform: translateX(100%);
 }
 
-.container--signup {
+.login-container--signup {
     left: 0;
     opacity: 0;
     width: 50%;
     z-index: 1;
 }
 
-.container.right-panel-active .container--signup {
+.login-container.right-panel-active .login-container--signup {
     animation: show 0.6s;
     opacity: 1;
     transform: translateX(100%);
     z-index: 5;
 }
 
-.container__overlay {
+.login-container__overlay {
     height: 100%;
     left: 50%;
     overflow: hidden;
@@ -122,7 +127,7 @@ footer {
     z-index: 100;
 }
 
-.container.right-panel-active .container__overlay {
+.login-container.right-panel-active .login-container__overlay {
     transform: translateX(-100%);
 }
 
@@ -137,7 +142,7 @@ footer {
     width: 200%;
 }
 
-.container.right-panel-active .overlay {
+.login-container.right-panel-active .overlay {
     transform: translateX(50%);
 }
 
@@ -159,7 +164,7 @@ footer {
     transform: translateX(-20%);
 }
 
-.container.right-panel-active .overlay--left {
+.login-container.right-panel-active .overlay--left {
     transform: translateX(0);
 }
 
@@ -168,7 +173,7 @@ footer {
     transform: translateX(0);
 }
 
-.container.right-panel-active .overlay--right {
+.login-container.right-panel-active .overlay--right {
     transform: translateX(20%);
 }
 

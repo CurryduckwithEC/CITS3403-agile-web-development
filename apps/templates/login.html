@@ -3,7 +3,7 @@
 {% block content %}
 <main class="container-fluid mt-3 login-container">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/login_style.css') }}">
-    <div class="container">
+    <div class="login-container">
         <!-- Flash Messages -->
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
@@ -19,21 +19,21 @@
         {% endwith %}
 
         <!-- Sign Up -->
-        <div class="container__form container--signup">
+        <div class="login-container__form login-container--signup">
             <form action="{{ url_for('login') }}" method="post" class="form" id="registrationForm">
                 {{ registration_form.hidden_tag() }}
-                <h2 class="form__title">Sign Up</h2>
+                <h2 class="form__title small-title">Sign Up</h2>
                 <div class="input-group">
-                    {{ registration_form.username(placeholder="Username", class="input", id="username", required=True) }}
+                    {{ registration_form.username(placeholder="Username", class="input", id="signupUsername", required=True) }}
                 </div>
                 <div class="input-group">
-                    {{ registration_form.email(placeholder="Email", class="input", id="email", required=True) }}
+                    {{ registration_form.email(placeholder="Email", class="input", id="signupEmail", required=True) }}
                 </div>
                 <div class="input-group">
-                    {{ registration_form.password(placeholder="Password", class="input", id="password", required=True) }}
+                    {{ registration_form.password(placeholder="Password", class="input", id="signupPassword", required=True) }}
                 </div>
                 <div class="input-group">
-                    {{ registration_form.confirmPassword(placeholder="Confirm Password", class="input", id="confirmPassword", required=True) }}
+                    {{ registration_form.confirmPassword(placeholder="Confirm Password", class="input", id="signupConfirmPassword", required=True) }}
                 </div>
                 <div class="form-group text-center">
                     {{ registration_form.submitButton(class="btn", type="submit") }}
@@ -43,15 +43,15 @@
         </div>
 
         <!-- Log In -->
-        <div class="container__form container--signin">
+        <div class="login-container__form login-container--signin">
             <form action="{{ url_for('login') }}" method="post" class="form" id="loginForm">
                 {{ login_form.hidden_tag() }}
                 <h2 class="form__title">Log In</h2>
                 <div class="input-group">
-                    {{ login_form.email(placeholder="Email", class="input", id="email", required=True) }}
+                    {{ login_form.email(placeholder="Email", class="input", id="loginEmail", required=True) }}
                 </div>
                 <div class="input-group">
-                    {{ login_form.password(placeholder="Password", class="input", id="password", required=True) }}
+                    {{ login_form.password(placeholder="Password", class="input", id="loginPassword", required=True) }}
                 </div>
                 <div class="form-group text-center">
                     {{ login_form.loginButton(class="btn", type="submit") }}
@@ -61,13 +61,13 @@
         </div>
 
         <!-- Overlay -->
-        <div class="container__overlay">
+        <div class="login-container__overlay">
             <div class="overlay">
                 <div class="overlay__panel overlay--left">
-                    <button class="btn" id="signIn">Log In</button>
+                    <button class="btn" id="loginSignIn">Log In</button>
                 </div>
                 <div class="overlay__panel overlay--right">
-                    <button class="btn" id="signUp">Sign Up</button>
+                    <button class="btn" id="loginSignUp">Sign Up</button>
                 </div>
             </div>
         </div>
