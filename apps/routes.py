@@ -146,7 +146,7 @@ def login():
         print(request.form)  # Debug print
 
         form_type = request.form.get('form_type')
-        print(form_type)
+        print("Form type:", form_type)  # Debug print
         if form_type == 'login' and login_form.validate_on_submit():
             print("Login form submitted")  # Debug print
             email = login_form.email.data
@@ -157,25 +157,26 @@ def login():
                 return redirect(url_for('main'))
             else:
                 flash('Invalid email or password.', 'danger')
-        elif form_type == 'register' and registration_form.validate_on_submit():
-            print("Registration form submitted and validated")  # Debug print
-            username = registration_form.username.data
-            email = registration_form.email.data
-            password = registration_form.password.data
-            existing_user = User.query.filter((User.username == username) | (User.email == email)).first()
-            if existing_user:
-                flash('Username or email already exists. Please choose a different one.', 'danger')
+        elif form_type == 'register':
+            print("Attempting to submit registration form")  # Debug print
+            if registration_form.validate_on_submit():
+                print("Registration form submitted and validated")  # Debug print
+                username = registration_form.username.data
+                email = registration_form.email.data
+                password = registration_form.password.data
+                existing_user = User.query.filter((User.username == username) | (User.email == email)).first()
+                if existing_user:
+                    flash('Username or email already exists. Please choose a different one.', 'danger')
+                else:
+                    new_user = User(username=username, email=email, avatar='static/images/avatars/default_avatar.png')
+                    new_user.set_password(password)
+                    db.session.add(new_user)
+                    db.session.commit()
+                    flash('Registration successful. Please log in.', 'success')
+                    return redirect(url_for('login'))
             else:
-                new_user = User(username=username, email=email, avatar='static/images/avatars/default_avatar.png')
-                new_user.set_password(password)
-                db.session.add(new_user)
-                db.session.commit()
-                flash('Registration successful. Please log in.', 'success')
-                return redirect(url_for('login'))
-        else:
-            print("Form validation failed")  # Debug print
-            if form_type == 'register':
-                print(registration_form.errors)  # Debug print
+                print("Registration form validation failed")  # Debug print
+                print("Registration form errors:", registration_form.errors)  # Debug print
     return render_template('login.html', login_form=login_form, registration_form=registration_form)
 
 # The functionality of logging out.
