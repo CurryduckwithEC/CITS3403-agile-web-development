@@ -5,23 +5,26 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/login_style.css') }}">
     <div class="login-container">
         <!-- Flash Messages -->
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                {% for category, message in messages %}
-                    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
-                        {{ message }}
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
+        <div class="flash-container">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+        </div>
 
         <!-- Sign Up -->
         <div class="login-container__form login-container--signup">
             <form action="{{ url_for('login') }}" method="post" class="form" id="registrationForm">
                 {{ registration_form.hidden_tag() }}
+                <input type="hidden" name="form_type" value="register">
                 <h2 class="form__title small-title">Sign Up</h2>
                 <div class="input-group">
                     {{ registration_form.username(placeholder="Username", class="input", id="signupUsername", required=True) }}
@@ -46,6 +49,7 @@
         <div class="login-container__form login-container--signin">
             <form action="{{ url_for('login') }}" method="post" class="form" id="loginForm">
                 {{ login_form.hidden_tag() }}
+                <input type="hidden" name="form_type" value="login">
                 <h2 class="form__title">Log In</h2>
                 <div class="input-group">
                     {{ login_form.email(placeholder="Email", class="input", id="loginEmail", required=True) }}

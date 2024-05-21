@@ -178,7 +178,6 @@ def login():
                 print(registration_form.errors)  # Debug print
     return render_template('login.html', login_form=login_form, registration_form=registration_form)
 
-
 # The functionality of logging out.
 @flaskApp.route('/logout')
 @login_required
