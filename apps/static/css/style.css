@@ -23,14 +23,13 @@ html, body {
 }
 
 footer {
-    margin-top: auto;
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    background-color: #343a40; /* Ensure this matches your site's theme */
-    color: white;
-    text-align: center;
-    padding: 10px 0;
+    background-color: #343a40; /* Dark background color */
+    color: white; /* White text color */
+    text-align: center; /* Centered text */
+    padding: 10px 0; /* Padding for spacing */
+    position: relative; /* Position relative to enable z-index */
+    z-index: 10; /* Ensure footer is above other content */
+    margin-top: auto; /* Push footer to the bottom */
 }
 
 .avatar-img {
