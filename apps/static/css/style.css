@@ -90,3 +90,10 @@ footer {
 .result-item small {
     color: #999;
 }
+
+
+
+.post-title:hover {
+    color: #007bff; 
+    font-size: 1.8em;
+}
